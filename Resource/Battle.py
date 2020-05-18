@@ -45,6 +45,9 @@ class Battle:
             while 1:
                 monster.attack(player)
                 player.attack(monster)
+                if self.if_battle_end():
+                    return self.if_battle_end()
+                self.round_rest()
 
 
 def test():
