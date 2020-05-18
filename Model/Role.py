@@ -124,13 +124,14 @@ class Role:
                 "code": 1
             }
 
-    def attack(self, target):
+    def attack(self, target, skill_int=0):
         """
         攻击函数，调用技能
+        :param skill_int:
         :param target: 即将被攻击的目标
         :return:
         """
-        pass
+        return self.use_skill(skill_int, target)
 
     def recover(self):
         """
@@ -144,11 +145,11 @@ class Role:
 
 
 class Monster(Role):
-    def attack(self, target: Role):
+    def attack(self, target, skill_int=0):
         try_count = 0
-        skill_int = random.randint(0, len(self.skill_list) - 1)
 
         while try_count < 3:
+            skill_int = random.randint(0, len(self.skill_list) - 1)
             code = self.use_skill(skill_int, target)["code"]
             if code == 1:
                 return {
