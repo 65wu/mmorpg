@@ -123,7 +123,22 @@ class Role:
             }
 
     def attack(self, target):
+        """
+        攻击函数，调用技能
+        :param target: 即将被攻击的目标
+        :return:
+        """
         pass
+
+    def recover(self):
+        """
+        每回合固定回复魔法值
+        :return:
+        """
+        self.mp_current = min(
+            int(self.mp_max * 0.2) + self.mp_current,
+            self.mp_max
+        )
 
 
 class Monster(Role):
