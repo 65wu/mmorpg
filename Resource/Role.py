@@ -116,3 +116,7 @@ class Role:
                     current_skill.damage -
                     int(target.defence / 2)
             )
+            return {
+                "message": "攻击成功",
+                "code": 1
+            }
