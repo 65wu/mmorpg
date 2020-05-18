@@ -97,6 +97,13 @@ class Role:
         else:
             return True
 
+    def damage_calulate(self, current_skill, target):
+        return (
+            self.attack_value +
+            current_skill.damage -
+            int(target.defence / 2)
+        )
+
     def use_skill(self, skill_id, target):
         if not self.check_skill_index_legal:
             return {
@@ -112,11 +119,7 @@ class Role:
                 "code": 0
             }
         else:
-            damage = (
-                    self.attack_value +
-                    current_skill.damage -
-                    int(target.defence / 2)
-            )
+            damage = self.damage_calulate(current_skill, target)
             target.hp_current -= damage
             print(f"{target.name}受到了{damage}的伤害")
             return {
