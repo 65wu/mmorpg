@@ -6,7 +6,6 @@ class Role:
         self,
         name,
         level,
-        exp,
         hp,
         mp,
         attack,
@@ -17,7 +16,6 @@ class Role:
         """
         :param name: 角色名
         :param level: 角色等级
-        :param exp: 角色经验
         :param hp: 角色血量，分为最大血量和当前血量
         :param mp: 角色魔法量，同上
         :param attack: 攻击值
@@ -27,13 +25,44 @@ class Role:
         """
         self.name = name
         self.level = level
-        self.exp = exp
         self.hp_current = self.hp_max = hp
         self.mp_current = self.mp_max = mp
         self.attack = attack
         self.defence = defence
         self.speed = speed
         self.skill_list = [Skill("普通攻击", 20, 0)] + skill_list
+
+    def basic_info(self):
+        """
+        返回基本信息
+        :return:
+        """
+        return {
+            "name": self.name,
+            "level": self.level,
+            "hp_max": self.hp_max,
+            "hp_current": self.hp_current,
+            "mp_max": self.mp_max,
+            "mp_current": self.mp_current
+        }
+
+    def detailed_info(self):
+        """
+        返回详细信息
+        :return:
+        """
+        return {
+            "name": self.name,
+            "level": self.level,
+            "hp_max": self.hp_max,
+            "hp_current": self.hp_current,
+            "mp_max": self.mp_max,
+            "mp_current": self.mp_current,
+            "attack": self.attack,
+            "defence": self.defence,
+            "speed": self.speed,
+            "skill_list": self.skill_list
+        }
 
     def check_if_hp_enough(self):
         """
@@ -67,7 +96,7 @@ class Role:
         else:
             return True
 
-    def attack(self, skill_id, role):
+    def attack(self, skill_id, target):
         if not self.check_skill_index_legal:
             return {
                 "message": "技能不合法，违规操作",
@@ -82,4 +111,8 @@ class Role:
                 "code": 0
             }
         else:
-            role.hp_current = role.hp_current - (self.attack + current_skill.damage)
+            target.hp_current = target.hp_current - (
+                    self.attack +
+                    current_skill.damage -
+                    int(target.defence / 2)
+            )
