@@ -1,3 +1,4 @@
+import random
 from Resource.Skill import Skill
 
 
@@ -96,7 +97,7 @@ class Role:
         else:
             return True
 
-    def attack(self, skill_id, target):
+    def use_skill(self, skill_id, target):
         if not self.check_skill_index_legal:
             return {
                 "message": "技能不合法，违规操作",
@@ -111,12 +112,38 @@ class Role:
                 "code": 0
             }
         else:
-            target.hp_current = target.hp_current - (
+            target.hp_current -= (
                     self.attack +
                     current_skill.damage -
                     int(target.defence / 2)
             )
             return {
-                "message": "攻击成功",
+                "message": "使用技能成功",
                 "code": 1
             }
+
+    def attack(self, target):
+        pass
+
+
+class Monster(Role):
+    def attack(self, target):
+        try_count = 0
+        skill_int = random.randint(len(self.skill_list))
+
+        while try_count < 3:
+            code = self.use_skill(skill_int, target)["code"]
+            if code == 1:
+                return {
+                    "message": "攻击成功",
+                    "code": 1
+                }
+            else:
+                try_count += 1
+
+        # 蓝不够，直接普通攻击
+        self.use_skill(0, target)
+        return {
+            "message": "攻击成功",
+            "code": 1
+        }
