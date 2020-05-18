@@ -28,7 +28,7 @@ class Role:
         self.level = level
         self.hp_current = self.hp_max = hp
         self.mp_current = self.mp_max = mp
-        self.attack = attack
+        self.attack_value = attack
         self.defence = defence
         self.speed = speed
         self.skill_list = [Skill("普通攻击", 20, 0)] + skill_list
@@ -59,7 +59,7 @@ class Role:
             "hp_current": self.hp_current,
             "mp_max": self.mp_max,
             "mp_current": self.mp_current,
-            "attack": self.attack,
+            "attack": self.attack_value,
             "defence": self.defence,
             "speed": self.speed,
             "skill_list": self.skill_list
@@ -112,11 +112,13 @@ class Role:
                 "code": 0
             }
         else:
-            target.hp_current -= (
-                    self.attack +
+            damage = (
+                    self.attack_value +
                     current_skill.damage -
                     int(target.defence / 2)
             )
+            target.hp_current -= damage
+            print(f"{target.name}受到了{damage}的伤害")
             return {
                 "message": "使用技能成功",
                 "code": 1
@@ -142,9 +144,9 @@ class Role:
 
 
 class Monster(Role):
-    def attack(self, target):
+    def attack(self, target: Role):
         try_count = 0
-        skill_int = random.randint(len(self.skill_list))
+        skill_int = random.randint(0, len(self.skill_list) - 1)
 
         while try_count < 3:
             code = self.use_skill(skill_int, target)["code"]
