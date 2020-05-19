@@ -60,25 +60,30 @@ class Round:
         else:
             return None
 
-    def round_exec(self):
+    def round_exec(self, skill_id):
         player = self.player
         monster = self.monster
+        player_attack_damage = monster_attack_damage = 0
         order_list = self.round_attack_sequence()
+
         for role in order_list:
-            if_round_check = self.round_end_check(role)
-            if if_round_check:
-                return if_round_check
+            if_round_end = self.round_end_check(role)
+            if if_round_end:
+                return if_round_end
             else:
                 if type(role) == Player:
-                    skill_id = input("请输入使用的技能id")
-                    player.attack(monster, skill_id)
+                    player_attack_damage = player.attack(monster, skill_id)["damage"]
                 else:
-                    monster.attack(player)
+                    monster_attack_damage = monster.attack(player)["damage"]
 
         self.round_rest()
         return {
             "battle_state": Battle_state.be_in_progress,
-            "round_info": self.round_info()
+            "round_info": self.round_info(),
+            "damage": {
+                "by_player": player_attack_damage,
+                "by_monster": monster_attack_damage
+            }
         }
 
 

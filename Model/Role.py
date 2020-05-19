@@ -105,14 +105,7 @@ class Role:
         )
 
     def use_skill(self, target, skill_id=0):
-        if not self.check_skill_index_legal:
-            return {
-                "message": "技能不合法，违规操作",
-                "code": -1
-            }
-        else:
-            current_skill = self.skill_list[skill_id]
-
+        current_skill = self.skill_list[skill_id]
         if not self.check_if_mp_enough(current_skill):
             return {
                 "message": "魔法值不足",
