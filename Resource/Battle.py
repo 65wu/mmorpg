@@ -1,4 +1,4 @@
-from Model.Role import Monster
+from Model.Role import Monster, Player
 from Model.Skill import Skill
 
 
@@ -38,6 +38,42 @@ class Round:
         """
         self.player.recover()
         self.monster.recover()
+
+    def round_exec(self):
+        player = self.player
+        monster = self.monster
+        order_list = self.round_attack_sequence()
+        for role in order_list:
+            if not role.alive:
+                if type(role) == Player:
+                    return {
+                        "battle_state": Battle_state.lose,
+                        "round_info": self.round_info()
+                    }
+                # 暂时一对一，一个怪死了就算胜利
+                else:
+                    return {
+                        "battle_state": Battle_state.win,
+                        "round_info": self.round_info()
+                    }
+            else:
+                if type(role) == Player:
+                    skill_id = input("请输入使用的技能id")
+                    player.attack(monster, skill_id)
+                else:
+                    monster.attack(player)
+
+        self.round_rest()
+        return {
+            "battle_state": Battle_state.be_in_progress,
+            "round_info": self.round_info()
+        }
+
+
+class Battle_state:
+    lose = -1
+    be_in_progress = 0
+    win = 1
 
 
 class Battle:

@@ -42,8 +42,7 @@ class Role:
         """
         return {
             "hp_current": self.hp_current,
-            "mp_current": self.mp_current,
-            "alive_status": self.alive
+            "mp_current": self.mp_current
         }
 
     def detailed_info(self):
