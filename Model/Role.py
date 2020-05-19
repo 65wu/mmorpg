@@ -97,7 +97,7 @@ class Role:
         else:
             return True
 
-    def damage_calulate(self, current_skill, target):
+    def damage_calculate(self, current_skill, target):
         return (
             self.attack_value +
             current_skill.damage -
