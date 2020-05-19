@@ -157,3 +157,20 @@ class Monster(Role):
 
         # 蓝不够，直接普通攻击
         return self.use_skill(0, target)
+
+
+class Player(Role):
+    def __init__(
+        self,
+        name,
+        level,
+        exp,
+        hp,
+        mp,
+        attack,
+        defence,
+        speed,
+        skill_list
+    ):
+        super().__init__(name, level, hp, mp, attack, defence, speed, skill_list)
+        self.exp = exp
