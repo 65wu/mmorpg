@@ -27,7 +27,7 @@ class Round:
         """
         player = self.player
         monster = self.monster
-        order_list = [] + player + monster
+        order_list = [player, monster]
         sorted(order_list, key=lambda role: role.speed)
         return order_list
 
@@ -110,7 +110,7 @@ class Battle:
 
     def start(self):
         game_round = self.game_round
-        skill_id = input("请输入使用的技能id: ")
+        skill_id = int(input("请输入使用的技能id: "))
         round_result = game_round.exec(skill_id)
 
         while round_result["battle_state"] == Battle_state.be_in_progress:
