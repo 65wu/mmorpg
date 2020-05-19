@@ -96,6 +96,15 @@ class Round:
         }
 
 
+def battle_state_detail(state_code):
+    detail_map = {
+        Battle_state.lose: "战斗失败",
+        Battle_state.be_in_progress: "战斗进行中",
+        Battle_state.win: "战斗失败"
+    }
+    return detail_map[state_code]
+
+
 class Battle_state:
     lose = -1
     be_in_progress = 0
@@ -131,14 +140,9 @@ class Battle:
             skill_id = int(input("请输入使用的技能id: "))
             round_result = game_round.exec(skill_id)
 
-        end_map = {
-            -1: "战斗失败",
-            1: "战斗胜利"
-        }
-
         print(f"""
-        当前回合为{game_round},
-        {end_map[round_result["battle_state"]]}
+        当前回合为{game_round.count},
+        {battle_state_detail(round_result["battle_state"])}
 
         当前{self.player.name}
         血量为{round_result["round_info"]["player_info"]["hp_current"]},
