@@ -105,7 +105,7 @@ class Role:
             int(target.defence / 2)
         )
 
-    def use_skill(self, skill_id, target):
+    def use_skill(self, target, skill_id=0):
         if not self.check_skill_index_legal:
             return {
                 "message": "技能不合法，违规操作",
@@ -136,7 +136,7 @@ class Role:
         :param target: 即将被攻击的目标
         :return:
         """
-        return self.use_skill(skill_int, target)
+        return self.use_skill(target, skill_int)
 
     def recover(self):
         """
@@ -155,14 +155,14 @@ class Monster(Role):
 
         while try_count < 3:
             skill_int = random.randint(0, len(self.skill_list) - 1)
-            result = self.use_skill(skill_int, target)
+            result = self.use_skill(target, skill_int)
             if result["code"] == 1:
                 return result
             else:
                 try_count += 1
 
         # 蓝不够，直接普通攻击
-        return self.use_skill(0, target)
+        return self.use_skill(target)
 
 
 class Player(Role):
