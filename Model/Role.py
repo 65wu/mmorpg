@@ -23,6 +23,7 @@ class Role:
         :param defence: 防御值
         :param speed: 速度，决定先手前后顺序
         :param skill_list: 技能，列表类型，默认都拥有普通攻击
+        alive: 是否存活
         """
         self.name = name
         self.level = level
@@ -32,6 +33,7 @@ class Role:
         self.defence = defence
         self.speed = speed
         self.skill_list = [Skill("普通攻击", 20, 0)] + skill_list
+        self.alive = True
 
     def basic_info(self):
         """
@@ -40,7 +42,8 @@ class Role:
         """
         return {
             "hp_current": self.hp_current,
-            "mp_current": self.mp_current
+            "mp_current": self.mp_current,
+            "alive_status": self.alive
         }
 
     def detailed_info(self):
@@ -67,6 +70,8 @@ class Role:
         :return: 布尔值
         """
         if self.hp_current < 0:
+            self.hp_current = 0
+            self.alive = False
             return False
         else:
             return True
@@ -117,6 +122,7 @@ class Role:
         else:
             damage = self.damage_calculate(current_skill, target)
             target.hp_current -= damage
+            target.check_if_hp_enough()
             return {
                 "message": "攻击成功",
                 "code": 1,
@@ -174,3 +180,22 @@ class Player(Role):
     ):
         super().__init__(name, level, hp, mp, attack, defence, speed, skill_list)
         self.exp = exp
+
+    def available_skill(self):
+        skill_list = self.skill_list
+        available_skill_list = [
+            {
+                "id": skill_id,
+                "name": skill_list[skill_id].name,
+                "available": True
+            }
+            if self.check_if_mp_enough(skill_list[skill_id])
+            else
+            {
+                "id": skill_id,
+                "name": skill_list[skill_id].name,
+                "available": False
+            }
+            for skill_id in range(len(skill_list))
+        ]
+        return available_skill_list
