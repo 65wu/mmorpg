@@ -20,15 +20,16 @@ class Round:
             "monster_info": monster_info
         }
 
-    def round_exec(self):
+    def round_attack_sequence(self):
+        """
+        获取本回合玩家和怪物的攻击先后顺序
+        :return:
+        """
         player = self.player
         monster = self.monster
-        if player.speed >= monster.speed:
-            player.attack(monster)
-            monster.attack(player)
-        else:
-            monster.attack(player)
-            player.attack(monster)
+        order_list = [] + player + monster
+        sorted(order_list, key=lambda role: role.speed)
+        return order_list
 
     def round_rest(self):
         """
