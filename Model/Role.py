@@ -39,11 +39,7 @@ class Role:
         :return:
         """
         return {
-            "name": self.name,
-            "level": self.level,
-            "hp_max": self.hp_max,
             "hp_current": self.hp_current,
-            "mp_max": self.mp_max,
             "mp_current": self.mp_current
         }
 
@@ -123,8 +119,10 @@ class Role:
             target.hp_current -= damage
             print(f"{target.name}受到了{damage}的伤害")
             return {
-                "message": "使用技能成功",
-                "code": 1
+                "message": "攻击成功",
+                "code": 1,
+                "target": target.name,
+                "damage": damage
             }
 
     def attack(self, target, skill_int=0):
@@ -153,18 +151,11 @@ class Monster(Role):
 
         while try_count < 3:
             skill_int = random.randint(0, len(self.skill_list) - 1)
-            code = self.use_skill(skill_int, target)["code"]
-            if code == 1:
-                return {
-                    "message": "攻击成功",
-                    "code": 1
-                }
+            result = self.use_skill(skill_int, target)
+            if result["code"] == 1:
+                return result
             else:
                 try_count += 1
 
         # 蓝不够，直接普通攻击
-        self.use_skill(0, target)
-        return {
-            "message": "攻击成功",
-            "code": 1
-        }
+        return self.use_skill(0, target)
