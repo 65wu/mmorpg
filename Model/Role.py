@@ -98,11 +98,14 @@ class Role:
             return True
 
     def damage_calculate(self, current_skill, target):
-        return (
+        damage = (
             self.attack_value +
             current_skill.damage -
             int(target.defence / 2)
         )
+        if damage <= 0:
+            damage = 1
+        return damage
 
     def use_skill(self, target, skill_id=0):
         current_skill = self.skill_list[skill_id]
