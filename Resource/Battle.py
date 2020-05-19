@@ -61,21 +61,30 @@ class Round:
             return None
 
     def round_exec(self, skill_id):
+        """
+        单回合执行函数
+        :param skill_id: 用户选择的技能
+        :return: 返回本回合信息，如果回合继续，还会返回双方造成的伤害
+        """
         player = self.player
         monster = self.monster
         player_attack_damage = monster_attack_damage = 0
         order_list = self.round_attack_sequence()
 
+        # 依照速度排序，依次执行攻击
         for role in order_list:
             if_round_end = self.round_end_check(role)
+            # 检查是否有角色死亡
             if if_round_end:
                 return if_round_end
             else:
+                # 如果是玩家，则使用玩家选择的技能
                 if type(role) == Player:
                     player_attack_damage = player.attack(monster, skill_id)["damage"]
                 else:
                     monster_attack_damage = monster.attack(player)["damage"]
 
+        # 回合继续，双方回复mp
         self.round_rest()
         return {
             "battle_state": Battle_state.be_in_progress,
