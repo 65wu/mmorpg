@@ -39,23 +39,30 @@ class Round:
         self.player.recover()
         self.monster.recover()
 
+    def round_end_check(self, role):
+        if not role.alive:
+            if type(role) == Player:
+                return {
+                    "battle_state": Battle_state.lose,
+                    "round_info": self.round_info()
+                }
+            # 暂时一对一，一个怪死了就算胜利
+            else:
+                return {
+                    "battle_state": Battle_state.win,
+                    "round_info": self.round_info()
+                }
+        else:
+            return None
+
     def round_exec(self):
         player = self.player
         monster = self.monster
         order_list = self.round_attack_sequence()
         for role in order_list:
-            if not role.alive:
-                if type(role) == Player:
-                    return {
-                        "battle_state": Battle_state.lose,
-                        "round_info": self.round_info()
-                    }
-                # 暂时一对一，一个怪死了就算胜利
-                else:
-                    return {
-                        "battle_state": Battle_state.win,
-                        "round_info": self.round_info()
-                    }
+            if_round_check = self.round_end_check(role)
+            if if_round_check:
+                return if_round_check
             else:
                 if type(role) == Player:
                     skill_id = input("请输入使用的技能id")
