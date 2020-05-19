@@ -119,7 +119,7 @@ class Role:
                 "code": 0
             }
         else:
-            damage = self.damage_calulate(current_skill, target)
+            damage = self.damage_calculate(current_skill, target)
             target.hp_current -= damage
             print(f"{target.name}受到了{damage}的伤害")
             return {
