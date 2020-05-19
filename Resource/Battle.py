@@ -127,7 +127,9 @@ class Battle:
             血量为{round_result["round_info"]["monster_info"]["hp_current"]},
             魔法量为{round_result["round_info"]["monster_info"]["mp_current"]}
             """)
-            game_round += 1
+            game_round.count += 1
+            skill_id = int(input("请输入使用的技能id: "))
+            round_result = game_round.exec(skill_id)
 
         end_map = {
             -1: "战斗失败",
