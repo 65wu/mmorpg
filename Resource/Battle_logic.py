@@ -88,7 +88,7 @@ def test():
             Skill("肉弹冲击", 25, 15)
         ]
     )
-    battle = Battle(player_test, monster_b)
+    battle = Battle_logic(player_test, monster_b)
     battle.start()
 
 
