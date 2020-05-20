@@ -4,7 +4,7 @@ from Model.Round import Round
 from Model.Skill import Skill
 
 
-class Battle:
+class Battle_logic:
     def __init__(self, player, monster):
         self.player = player
         self.monster = monster
