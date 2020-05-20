@@ -8,6 +8,9 @@ class Round:
         self.player = player
         self.monster = monster
 
+    def __str__(self):
+        return f"当前回合为第{self.count}回合"
+
     def info(self):
         """
         返回玩家和怪物的基本信息

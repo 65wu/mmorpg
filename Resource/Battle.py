@@ -17,7 +17,7 @@ class Battle:
 
         while round_result["battle_state"] == Battle_state.be_in_progress:
             print(f"""
-            当前回合为第{game_round.count}回合,
+            {game_round},
             {self.player.name}对{self.monster.name}造成了{round_result["damage"]["by_player"]}伤害
             {self.monster.name}对{self.player.name}造成了{round_result["damage"]["by_monster"]}伤害
 
@@ -34,7 +34,7 @@ class Battle:
             round_result = game_round.exec(skill_id)
 
         print(f"""
-        当前回合为{game_round.count},
+        {game_round},
         {battle_state_detail(round_result["battle_state"])}
 
         当前{self.player.name}
