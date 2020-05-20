@@ -35,6 +35,9 @@ class Role:
         self.skill_list = [Skill("普通攻击", 20, 0)] + skill_list
         self.alive = True
 
+    def __str__(self):
+        return self.name
+
     def basic_info(self):
         """
         返回基本信息

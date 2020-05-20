@@ -18,14 +18,14 @@ class Battle:
         while round_result["battle_state"] == Battle_state.be_in_progress:
             print(f"""
             {game_round},
-            {self.player.name}对{self.monster.name}造成了{round_result["damage"]["by_player"]}伤害
-            {self.monster.name}对{self.player.name}造成了{round_result["damage"]["by_monster"]}伤害
+            {self.player}对{self.monster}造成了{round_result["damage"]["by_player"]}伤害
+            {self.monster}对{self.player}造成了{round_result["damage"]["by_monster"]}伤害
 
-            目前{self.player.name}
+            目前{self.player}
             血量为{round_result["round_info"]["player_info"]["hp_current"]},
             魔法量为{round_result["round_info"]["player_info"]["mp_current"]}
 
-            {self.monster.name}
+            {self.monster}
             血量为{round_result["round_info"]["monster_info"]["hp_current"]},
             魔法量为{round_result["round_info"]["monster_info"]["mp_current"]}
             """)
@@ -37,11 +37,11 @@ class Battle:
         {game_round},
         {battle_state_detail(round_result["battle_state"])}
 
-        当前{self.player.name}
+        当前{self.player}
         血量为{round_result["round_info"]["player_info"]["hp_current"]},
         魔法量为{round_result["round_info"]["player_info"]["mp_current"]}
 
-        {self.monster.name}
+        {self.monster}
         血量为{round_result["round_info"]["monster_info"]["hp_current"]},
         魔法量为{round_result["round_info"]["monster_info"]["mp_current"]}
         """)

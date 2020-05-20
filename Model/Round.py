@@ -49,7 +49,7 @@ class Round:
         :return: 如果角色死亡，判断玩家是胜利还是失败，如果未死亡则直接返回None值
         """
         if not role.alive:
-            if type(role) == Player:
+            if isinstance(role, Player):
                 return {
                     "battle_state": Battle_state.lose,
                     "round_info": self.info()
@@ -82,7 +82,7 @@ class Round:
                 return if_round_end
             else:
                 # 如果是玩家，则使用玩家选择的技能
-                if type(role) == Player:
+                if isinstance(role, Player):
                     player_attack_damage = player.attack(monster, skill_id)["damage"]
                 else:
                     monster_attack_damage = monster.attack(player)["damage"]
