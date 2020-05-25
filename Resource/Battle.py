@@ -73,15 +73,16 @@ lock = threading.Lock()
 skill_id = 0
 
 monster_b = Monster(
-    name="牛头人",
+    name="骑士",
     level=1,
-    hp=120,
-    mp=15,
+    hp=240,
+    mp=25,
     attack=25,
-    defence=3,
+    defence=15,
     speed=1,
     skill_list=[
-        Skill("头锥", 30, 15)
+        Skill("盾击", 20, 12),
+        Skill("挥砍", 30, 15)
     ]
 )
 
@@ -91,7 +92,7 @@ player_test = Player(
     exp=0,
     hp=500,
     mp=100,
-    attack=10,
+    attack=30,
     defence=10,
     speed=3,
     skill_list=[
