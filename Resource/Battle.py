@@ -1,3 +1,5 @@
+import pygame
+import threading
 from Model.Battle_state import Battle_state, battle_state_detail
 from Model.Role import Monster, Player
 from Model.Round import Round
@@ -33,63 +35,75 @@ class Battle_logic:
 
     def start(self):
         game_round = self.game_round
-        skill_id = int(input("请输入使用的技能id: "))
+        thread_event.wait()
+        print(f"{skill_id=}")
         round_result = game_round.exec(skill_id)
 
         while round_result["battle_state"] == Battle_state.be_in_progress:
             self.round_status_print(round_result)
             self.round_damage_print(round_result)
             game_round.count += 1
-            skill_id = int(input("请输入使用的技能id: "))
+            thread_event.wait()
+            print(f"{skill_id=}")
             round_result = game_round.exec(skill_id)
 
         self.round_status_print(round_result)
 
 
-def test():
-    monster_a = Monster(
-        name="哥布林",
-        level=1,
-        hp=100,
-        mp=25,
-        attack=10,
-        defence=5,
-        speed=2,
-        skill_list=[
-            Skill("重击", 15, 5),
-            Skill("猛击", 25, 10)
-        ]
-    )
-
-    monster_b = Monster(
-        name="牛头人",
-        level=1,
-        hp=120,
-        mp=15,
-        attack=25,
-        defence=3,
-        speed=1,
-        skill_list=[
-            Skill("头锥", 30, 15)
-        ]
-    )
-
-    player_test = Player(
-        name="史莱姆",
-        level=1,
-        exp=0,
-        hp=500,
-        mp=100,
-        attack=10,
-        defence=10,
-        speed=3,
-        skill_list=[
-            Skill("粘液喷吐", 10, 5),
-            Skill("肉弹冲击", 25, 15)
-        ]
-    )
-    battle = Battle_logic(player_test, monster_b)
-    battle.start()
+def interface():
+    run = True
+    global skill_id
+    while run:
+        pygame.time.delay(100)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+            if event.type == pygame.K_SPACE:
+                skill_id = 1
+                thread_event.set()
+    pygame.quit()
 
 
-test()
+thread_event = threading.Event()
+lock = threading.Lock()
+skill_id = 0
+
+pygame.init()
+screen = pygame.display.set_mode([500, 500])
+pygame.display.set_caption("史莱姆大战勇士")
+
+monster_b = Monster(
+    name="牛头人",
+    level=1,
+    hp=120,
+    mp=15,
+    attack=25,
+    defence=3,
+    speed=1,
+    skill_list=[
+        Skill("头锥", 30, 15)
+    ]
+)
+
+player_test = Player(
+    name="史莱姆",
+    level=1,
+    exp=0,
+    hp=500,
+    mp=100,
+    attack=10,
+    defence=10,
+    speed=3,
+    skill_list=[
+        Skill("粘液喷吐", 10, 5),
+        Skill("肉弹冲击", 25, 15)
+    ]
+)
+battle = Battle_logic(player_test, monster_b)
+
+if __name__ == '__main__':
+    # p = threading.Thread(target=battle.start)
+    # c = threading.Thread(target=interface)
+    # p.start()
+    # c.start()
+    interface()
