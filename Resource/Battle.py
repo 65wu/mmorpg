@@ -52,14 +52,18 @@ class Battle_logic:
 
 def interface():
     run = True
+    pygame.init()
+    pygame.display.set_mode([500, 500])
+    pygame.display.set_caption("史莱姆大战勇士")
     global skill_id
     while run:
-        pygame.time.delay(100)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-            if event.type == pygame.K_SPACE:
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_LEFT]:
                 skill_id = 1
+                print(f"图形界面{skill_id=}")
                 thread_event.set()
     pygame.quit()
 
@@ -67,10 +71,6 @@ def interface():
 thread_event = threading.Event()
 lock = threading.Lock()
 skill_id = 0
-
-pygame.init()
-screen = pygame.display.set_mode([500, 500])
-pygame.display.set_caption("史莱姆大战勇士")
 
 monster_b = Monster(
     name="牛头人",
@@ -102,8 +102,7 @@ player_test = Player(
 battle = Battle_logic(player_test, monster_b)
 
 if __name__ == '__main__':
-    # p = threading.Thread(target=battle.start)
-    # c = threading.Thread(target=interface)
-    # p.start()
-    # c.start()
-    interface()
+    p = threading.Thread(target=battle.start)
+    p.start()
+    c = threading.Thread(target=interface)
+    c.start()
