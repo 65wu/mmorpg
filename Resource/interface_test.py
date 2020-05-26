@@ -90,13 +90,16 @@ def load_text():
     screen.blit(player_mp, (player_text_x + int(0.4 * rect_width), mp_y))
 
 
-def load_button():
-    global button_x
-    global button_y
-    global button_width
-    global button_height
+spacing = 80
+button_vector_list = [
+    (spacing * (i + 1) + button_width * i,  500)
+    for i in range(4)
+]
 
-    pygame.draw.rect(screen, (200, 200, 200), (button_x, button_y, button_width, button_height))
+
+def load_button():
+    for button_vector in button_vector_list:
+        pygame.draw.rect(screen, (200, 200, 200), (*button_vector, button_width, button_height))
 
 
 if __name__ == '__main__':
@@ -104,8 +107,6 @@ if __name__ == '__main__':
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-            # keys = pygame.key.get_pressed()
-            # if keys[pygame.K_LEFT]:
             if event.type == pygame.MOUSEBUTTONDOWN \
                 and button_x <= event.pos[0] <= button_x + button_width \
                 and button_y <= event.pos[1] <= button_y + button_height:
