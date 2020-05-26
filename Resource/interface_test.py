@@ -11,6 +11,11 @@ bg_dir = "/Image/Background/background.jpg"
 monster_dir = "/Image/Role/knight.png"
 player_dir = "/Image/Role/slime.png"
 
+button_x = 100
+button_y = 500
+button_width = 100
+button_height = 50
+
 
 def load_image():
     bg = pygame.image.load(data_dir + bg_dir)
@@ -86,10 +91,10 @@ def load_text():
 
 
 def load_button():
-    button_x = 100
-    button_y = 500
-    button_width = 100
-    button_height = 50
+    global button_x
+    global button_y
+    global button_width
+    global button_height
 
     pygame.draw.rect(screen, (200, 200, 200), (button_x, button_y, button_width, button_height))
 
@@ -101,8 +106,11 @@ if __name__ == '__main__':
                 run = False
             # keys = pygame.key.get_pressed()
             # if keys[pygame.K_LEFT]:
-            #     skill_id = 1
-            #     print(f"图形界面{skill_id=}")
+            if event.type == pygame.MOUSEBUTTONDOWN \
+                and button_x <= event.pos[0] <= button_x + button_width \
+                and button_y <= event.pos[1] <= button_y + button_height:
+                skill_id = 1
+                print(f"图形界面{skill_id=}")
 
         load_image()
         load_text()
