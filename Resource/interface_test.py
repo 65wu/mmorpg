@@ -33,6 +33,7 @@ def load_image():
 
 
 def load_text():
+    global run
     font_size = 35
     font = pygame.font.SysFont("SimHei", font_size)
     monster_name = font.render("骑士", True, (0, 0, 0))
@@ -48,12 +49,49 @@ def load_text():
 
     # 血条和蓝条
     rect_width = 250
-    rect_height = 25
+    rect_height = 20
     hp_y = 120
     mp_y = int(hp_y + rect_height * 6 / 5)
 
     pygame.draw.rect(screen, (0, 255, 0), (monster_text_x, hp_y, rect_width, rect_height))
     pygame.draw.rect(screen, (0, 0, 255), (monster_text_x, mp_y, rect_width, rect_height))
+
+    pygame.draw.rect(screen, (0, 255, 0), (player_text_x, hp_y, rect_width, rect_height))
+    pygame.draw.rect(screen, (0, 0, 255), (player_text_x, mp_y, rect_width, rect_height))
+
+    player_max_hp = 500
+    player_current_hp = 400
+    player_max_mp = 100
+    player_current_mp = 50
+
+    monster_max_hp = 250
+    monster_current_hp = 200
+    monster_max_mp = 25
+    monster_current_mp = 5
+
+    int_size = 20
+    int_font = pygame.font.SysFont("SimHei", int_size)
+
+    monster_hp = int_font.render(str(monster_current_hp) + '/' + str(monster_max_hp), True, (0, 0, 0))
+    monster_mp = int_font.render(str(monster_current_mp) + '/' + str(monster_max_mp), True, (0, 0, 0))
+
+    player_hp = int_font.render(str(player_current_hp) + '/' + str(player_max_hp), True, (0, 0, 0))
+    player_mp = int_font.render(str(player_current_mp) + '/' + str(player_max_mp), True, (0, 0, 0))
+
+    screen.blit(monster_hp, (monster_text_x + int(0.4 * rect_width), hp_y))
+    screen.blit(monster_mp, (monster_text_x + int(0.4 * rect_width), mp_y))
+
+    screen.blit(player_hp, (player_text_x + int(0.4 * rect_width), hp_y))
+    screen.blit(player_mp, (player_text_x + int(0.4 * rect_width), mp_y))
+
+
+def load_button():
+    button_x = 100
+    button_y = 500
+    button_width = 100
+    button_height = 50
+
+    pygame.draw.rect(screen, (200, 200, 200), (button_x, button_y, button_width, button_height))
 
 
 if __name__ == '__main__':
@@ -68,4 +106,5 @@ if __name__ == '__main__':
 
         load_image()
         load_text()
+        load_button()
         pygame.display.update()
