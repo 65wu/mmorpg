@@ -7,7 +7,7 @@ screen = pygame.display.set_mode([800, 600])
 pygame.display.set_caption("史莱姆大战勇士")
 
 data_dir = os.path.dirname(os.path.dirname(__file__)) + '/Data'
-bg_dir = "/Image/Background/background.jpg"
+bg_dir = "/Image/Background/background.png"
 monster_dir = "/Image/Role/knight.png"
 player_dir = "/Image/Role/slime.png"
 
@@ -18,7 +18,8 @@ button_height = 50
 
 
 def load_image():
-    bg = pygame.image.load(data_dir + bg_dir)
+    bg_source = pygame.image.load(data_dir + bg_dir)
+    bg = pygame.transform.scale(bg_source, (800, 600))
 
     role_size = 300, 300
     role_y = 160
@@ -92,7 +93,7 @@ def load_text():
 
 spacing = 80
 button_vector_list = [
-    (spacing * (i + 1) + button_width * i,  500)
+    (spacing * (i + 1) + button_width * i, 500)
     for i in range(4)
 ]
 
@@ -108,8 +109,8 @@ if __name__ == '__main__':
             if event.type == pygame.QUIT:
                 run = False
             if event.type == pygame.MOUSEBUTTONDOWN \
-                and button_x <= event.pos[0] <= button_x + button_width \
-                and button_y <= event.pos[1] <= button_y + button_height:
+                    and button_x <= event.pos[0] <= button_x + button_width \
+                    and button_y <= event.pos[1] <= button_y + button_height:
                 skill_id = 1
                 print(f"图形界面{skill_id=}")
 
