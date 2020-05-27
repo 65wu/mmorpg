@@ -183,17 +183,15 @@ class Player(Role):
         skill_list = self.skill_list
         available_skill_list = [
             {
-                "id": skill_id,
-                "name": skill_list[skill_id].name,
+                "name": skill_eg.name,
                 "available": True
             }
-            if self.check_if_mp_enough(skill_list[skill_id])
+            if self.check_if_mp_enough(skill_eg)
             else
             {
-                "id": skill_id,
-                "name": skill_list[skill_id].name,
+                "name": skill_eg.name,
                 "available": False
             }
-            for skill_id in range(len(skill_list))
+            for skill_id, skill_eg in enumerate(skill_list)
         ]
         return available_skill_list

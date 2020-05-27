@@ -1,5 +1,6 @@
 import pygame
 import os
+from Resource.Battle import player_test
 
 run = True
 pygame.init()
@@ -12,9 +13,10 @@ monster_dir = "/Image/Role/knight.png"
 player_dir = "/Image/Role/slime.png"
 
 color_black = (0, 0, 0)
+color_light_black = (40, 40, 40)
 color_green = (0, 255, 0)
 color_blue = (0, 0, 255)
-color_grey = (200, 200, 200)
+color_grey = (240, 240, 240)
 color_white = (255, 255, 255)
 
 button_x = 100
@@ -96,14 +98,14 @@ def load_text():
     ]
 
     rect_list = [
-        ("怪物hp底框", color_black, (monster_frame_x, hp_frame_y, fame_width, frame_height)),
-        ("怪物mp底框", color_black, (monster_frame_x, mp_frame_y, fame_width, frame_height)),
-        ("怪物hp条", color_green, (monster_text_x, hp_y, rect_width, rect_height)),
-        ("怪物mp条", color_blue, (monster_text_x, mp_y, rect_width, rect_height)),
-        ("玩家hp底框", color_black, (player_frame_x, hp_frame_y, fame_width, frame_height)),
-        ("玩家mp底框", color_black, (player_frame_x, mp_frame_y, fame_width, frame_height)),
-        ("玩家hp条", color_green, (player_text_x, hp_y, rect_width, rect_height)),
-        ("玩家mp条", color_blue, (player_text_x, mp_y, rect_width, rect_height))
+        ("怪物hp底框", color_light_black, (monster_frame_x, hp_frame_y, fame_width, frame_height)),
+        ("怪物mp底框", color_light_black, (monster_frame_x, mp_frame_y, fame_width, frame_height)),
+        ("怪物hp条", color_green, (monster_text_x, hp_y, int(rect_width * (monster_current_hp / monster_max_hp)), rect_height)),
+        ("怪物mp条", color_blue, (monster_text_x, mp_y, int(rect_width * (monster_current_mp / monster_max_mp)), rect_height)),
+        ("玩家hp底框", color_light_black, (player_frame_x, hp_frame_y, fame_width, frame_height)),
+        ("玩家mp底框", color_light_black, (player_frame_x, mp_frame_y, fame_width, frame_height)),
+        ("玩家hp条", color_green, (player_text_x, hp_y, int(rect_width * (player_current_hp / player_max_hp)), rect_height)),
+        ("玩家mp条", color_blue, (player_text_x, mp_y, int(rect_width * (player_current_mp / player_max_mp)), rect_height))
     ]
 
     for rect in rect_list:
@@ -115,21 +117,35 @@ def load_text():
 
 
 spacing = 80
-button_coordinate_list = [
-    (spacing * (i + 1) + button_width * i, 500)
-    for i in range(4)
+button_list = [
+    [spacing * (i + 1) + button_width * i, 500] +
+    list(skill.values())
+    for i, skill in enumerate(player_test.available_skill())
 ]
 
 
+print(button_list)
+
+
 def load_button():
-    for button_vector in button_coordinate_list:
-        pygame.draw.rect(screen, color_grey, (*button_vector, button_width, button_height))
+    skill_size = 20
+    skill_font = pygame.font.SysFont("SimHei", skill_size)
+    for button in button_list:
+        pygame.draw.rect(screen, color_grey, (*button[:2], button_width, button_height))
+        button_text = skill_font.render(button[2], True, color_black)
+        screen.blit(
+            button_text,
+            (
+                button[0] + int((button_width - skill_size * len(str(button[2]))) / 2),
+                button[1] + int((button_height - skill_size) / 2)
+            )
+        )
 
 
 def check_button_coordinate(click_event):
-    for index, button_coordinate in enumerate(button_coordinate_list):
-        if button_coordinate[0] <= click_event.pos[0] <= button_coordinate[0] + button_width \
-                and button_coordinate[1] <= click_event.pos[1] <= button_coordinate[1] + button_width:
+    for index, button in enumerate(button_list):
+        if button[0] <= click_event.pos[0] <= button[0] + button_width \
+                and button[1] <= click_event.pos[1] <= button[1] + button_width:
             return index
     return None
 

@@ -97,7 +97,8 @@ player_test = Player(
     speed=3,
     skill_list=[
         Skill("粘液喷吐", 10, 5),
-        Skill("肉弹冲击", 25, 15)
+        Skill("肉弹冲击", 25, 15),
+        Skill("猛击", 35, 20)
     ]
 )
 battle = Battle_logic(player_test, monster_b)
