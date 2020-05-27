@@ -83,15 +83,15 @@ def load_text():
     mp_frame_y = mp_y - frame_border
 
     text_list = [
-        (font, "骑士", color_black, (monster_text_x, role_text_y)),
-        (font, "史莱姆", color_black, (player_text_x, role_text_y)),
-        (int_font, str(monster_current_hp) + '/' + str(monster_max_hp), color_white, (
+        ("怪物名", font, "骑士", color_black, (monster_text_x, role_text_y)),
+        ("玩家名", font, "史莱姆", color_black, (player_text_x, role_text_y)),
+        ("怪物血量", int_font, str(monster_current_hp) + '/' + str(monster_max_hp), color_white, (
             monster_text_x + int(0.4 * rect_width), hp_y)),
-        (int_font, str(monster_current_mp) + '/' + str(monster_max_mp), color_white, (
+        ("怪物魔法量", int_font, str(monster_current_mp) + '/' + str(monster_max_mp), color_white, (
             monster_text_x + int(0.4 * rect_width), mp_y)),
-        (int_font, str(player_current_hp) + '/' + str(player_max_hp), color_white, (
+        ("玩家血量", int_font, str(player_current_hp) + '/' + str(player_max_hp), color_white, (
             player_text_x + int(0.4 * rect_width), hp_y)),
-        (int_font, str(player_current_mp) + '/' + str(player_max_mp), color_white, (
+        ("玩家魔法量", int_font, str(player_current_mp) + '/' + str(player_max_mp), color_white, (
             player_text_x + int(0.4 * rect_width), mp_y))
     ]
 
@@ -110,18 +110,16 @@ def load_text():
         pygame.draw.rect(screen, rect[1], rect[2])
 
     for text_package in text_list:
-        characters = text_package[0].render(text_package[1], True, text_package[2])
-        screen.blit(characters, text_package[3])
-
-
-spacing = 80
-button_vector_list = [
-    (spacing * (i + 1) + button_width * i, 500)
-    for i in range(4)
-]
+        characters = text_package[1].render(text_package[2], True, text_package[3])
+        screen.blit(characters, text_package[4])
 
 
 def load_button():
+    spacing = 80
+    button_vector_list = [
+        (spacing * (i + 1) + button_width * i, 500)
+        for i in range(4)
+    ]
     for button_vector in button_vector_list:
         pygame.draw.rect(screen, color_grey, (*button_vector, button_width, button_height))
 
