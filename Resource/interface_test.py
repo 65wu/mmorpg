@@ -48,16 +48,22 @@ def load_text():
     global run
     font_size = 35
     font = pygame.font.SysFont("SimHei", font_size)
-    monster_name = font.render("骑士", True, color_black)
-    player_name = font.render("史莱姆", True, color_black)
+    int_size = 20
+    int_font = pygame.font.SysFont("SimHei", int_size)
+
+    player_max_hp = 500
+    player_current_hp = 400
+    player_max_mp = 100
+    player_current_mp = 50
+
+    monster_max_hp = 250
+    monster_current_hp = 200
+    monster_max_mp = 25
+    monster_current_mp = 5
 
     monster_text_x = 20
     player_text_x = 500 + monster_text_x
     role_text_y = 70
-
-    # 角色名称
-    screen.blit(monster_name, (monster_text_x, role_text_y))
-    screen.blit(player_name, (player_text_x, role_text_y))
 
     # 血条和蓝条
     rect_width = 250
@@ -76,6 +82,19 @@ def load_text():
     hp_frame_y = hp_y - frame_border
     mp_frame_y = mp_y - frame_border
 
+    text_list = [
+        (font, "骑士", color_black, (monster_text_x, role_text_y)),
+        (font, "史莱姆", color_black, (player_text_x, role_text_y)),
+        (int_font, str(monster_current_hp) + '/' + str(monster_max_hp), color_white, (
+            monster_text_x + int(0.4 * rect_width), hp_y)),
+        (int_font, str(monster_current_mp) + '/' + str(monster_max_mp), color_white, (
+            monster_text_x + int(0.4 * rect_width), mp_y)),
+        (int_font, str(player_current_hp) + '/' + str(player_max_hp), color_white, (
+            player_text_x + int(0.4 * rect_width), hp_y)),
+        (int_font, str(player_current_mp) + '/' + str(player_max_mp), color_white, (
+            player_text_x + int(0.4 * rect_width), mp_y))
+    ]
+
     rect_list = [
         ("怪物hp底框", color_black, (monster_frame_x, hp_frame_y, fame_width, frame_height)),
         ("怪物mp底框", color_black, (monster_frame_x, mp_frame_y, fame_width, frame_height)),
@@ -90,30 +109,9 @@ def load_text():
     for rect in rect_list:
         pygame.draw.rect(screen, rect[1], rect[2])
 
-    player_max_hp = 500
-    player_current_hp = 400
-    player_max_mp = 100
-    player_current_mp = 50
-
-    monster_max_hp = 250
-    monster_current_hp = 200
-    monster_max_mp = 25
-    monster_current_mp = 5
-
-    int_size = 20
-    int_font = pygame.font.SysFont("SimHei", int_size)
-
-    monster_hp = int_font.render(str(monster_current_hp) + '/' + str(monster_max_hp), True, color_white)
-    monster_mp = int_font.render(str(monster_current_mp) + '/' + str(monster_max_mp), True, color_white)
-
-    player_hp = int_font.render(str(player_current_hp) + '/' + str(player_max_hp), True, color_white)
-    player_mp = int_font.render(str(player_current_mp) + '/' + str(player_max_mp), True, color_white)
-
-    screen.blit(monster_hp, (monster_text_x + int(0.4 * rect_width), hp_y))
-    screen.blit(monster_mp, (monster_text_x + int(0.4 * rect_width), mp_y))
-
-    screen.blit(player_hp, (player_text_x + int(0.4 * rect_width), hp_y))
-    screen.blit(player_mp, (player_text_x + int(0.4 * rect_width), mp_y))
+    for text_package in text_list:
+        characters = text_package[0].render(text_package[1], True, text_package[2])
+        screen.blit(characters, text_package[3])
 
 
 spacing = 80
