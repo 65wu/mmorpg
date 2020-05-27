@@ -114,14 +114,24 @@ def load_text():
         screen.blit(characters, text_package[4])
 
 
+spacing = 80
+button_coordinate_list = [
+    (spacing * (i + 1) + button_width * i, 500)
+    for i in range(4)
+]
+
+
 def load_button():
-    spacing = 80
-    button_vector_list = [
-        (spacing * (i + 1) + button_width * i, 500)
-        for i in range(4)
-    ]
-    for button_vector in button_vector_list:
+    for button_vector in button_coordinate_list:
         pygame.draw.rect(screen, color_grey, (*button_vector, button_width, button_height))
+
+
+def check_button_coordinate(click_event):
+    for index, button_coordinate in enumerate(button_coordinate_list):
+        if button_coordinate[0] <= click_event.pos[0] <= button_coordinate[0] + button_width \
+                and button_coordinate[1] <= click_event.pos[1] <= button_coordinate[1] + button_width:
+            return index
+    return None
 
 
 if __name__ == '__main__':
@@ -129,11 +139,11 @@ if __name__ == '__main__':
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-            if event.type == pygame.MOUSEBUTTONDOWN \
-                    and button_x <= event.pos[0] <= button_x + button_width \
-                    and button_y <= event.pos[1] <= button_y + button_height:
-                skill_id = 1
-                print(f"图形界面{skill_id=}")
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                tmp_skill_id = check_button_coordinate(event)
+                if tmp_skill_id is not None:
+                    skill_id = tmp_skill_id
+                    print(f"图形界面{skill_id=}")
 
         load_image()
         load_text()
