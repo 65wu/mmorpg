@@ -100,8 +100,10 @@ def load_text():
     rect_list = [
         ("怪物hp底框", color_light_black, (monster_frame_x, hp_frame_y, fame_width, frame_height)),
         ("怪物mp底框", color_light_black, (monster_frame_x, mp_frame_y, fame_width, frame_height)),
-        ("怪物hp条", color_green, (monster_text_x, hp_y, int(rect_width * (monster_current_hp / monster_max_hp)), rect_height)),
-        ("怪物mp条", color_blue, (monster_text_x, mp_y, int(rect_width * (monster_current_mp / monster_max_mp)), rect_height)),
+        ("怪物hp条", color_green, (
+            monster_text_x, hp_y, int(rect_width * (monster_current_hp / monster_max_hp)), rect_height)),
+        ("怪物mp条", color_blue, (
+            monster_text_x, mp_y, int(rect_width * (monster_current_mp / monster_max_mp)), rect_height)),
         ("玩家hp底框", color_light_black, (player_frame_x, hp_frame_y, fame_width, frame_height)),
         ("玩家mp底框", color_light_black, (player_frame_x, mp_frame_y, fame_width, frame_height)),
         ("玩家hp条", color_green, (player_text_x, hp_y, int(rect_width * (player_current_hp / player_max_hp)), rect_height)),
@@ -131,8 +133,12 @@ def load_button():
     skill_size = 20
     skill_font = pygame.font.SysFont("SimHei", skill_size)
     for button in button_list:
+        # button[0] 按钮x坐标
+        # button[1] 按钮y坐标
+        # button[2] 按钮上的技能文字
         pygame.draw.rect(screen, color_grey, (*button[:2], button_width, button_height))
         button_text = skill_font.render(button[2], True, color_black)
+        # 水平且垂直居中
         screen.blit(
             button_text,
             (
