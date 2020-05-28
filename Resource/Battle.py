@@ -72,7 +72,7 @@ thread_event = threading.Event()
 lock = threading.Lock()
 skill_id = 0
 
-monster_b = Monster(
+monster_test = Monster(
     name="骑士",
     level=1,
     hp=250,
@@ -83,7 +83,8 @@ monster_b = Monster(
     skill_list=[
         Skill("盾击", 20, 12),
         Skill("挥砍", 30, 15)
-    ]
+    ],
+    image="/Image/Role/knight.png"
 )
 
 player_test = Player(
@@ -99,9 +100,10 @@ player_test = Player(
         Skill("粘液喷吐", 10, 5),
         Skill("肉弹冲击", 25, 15),
         Skill("猛击", 35, 20)
-    ]
+    ],
+    image="/Image/Role/slime.png"
 )
-battle = Battle_logic(player_test, monster_b)
+battle = Battle_logic(player_test, monster_test)
 
 if __name__ == '__main__':
     p = threading.Thread(target=battle.start)

@@ -1,41 +1,16 @@
 import pygame
-import os
 from Model.Color import Color
 from Model.Button import Button
-from Resource.Battle import player_test
+from Model.Image import Image
+from Resource.Battle import monster_test, player_test
 
 run = True
 pygame.init()
 screen = pygame.display.set_mode([800, 600])
 pygame.display.set_caption("史莱姆大战勇士")
 
-data_dir = os.path.dirname(os.path.dirname(__file__)) + '/Data'
-bg_dir = "/Image/Background/background.png"
-monster_dir = "/Image/Role/knight.png"
-player_dir = "/Image/Role/slime.png"
-
 button = Button(pygame, screen, player_test)
-
-
-def load_image():
-    bg_source = pygame.image.load(data_dir + bg_dir)
-    bg = pygame.transform.scale(bg_source, (800, 600))
-
-    role_size = 300, 300
-    role_y = 160
-    monster_x = 0
-    player_x = 500
-
-    monster_source = pygame.image.load(data_dir + monster_dir)
-    monster = pygame.transform.scale(monster_source, role_size)
-
-    player_source = pygame.image.load(data_dir + player_dir)
-    player_scale = pygame.transform.scale(player_source, role_size)
-    player = pygame.transform.flip(player_scale, True, False)
-
-    screen.blit(bg, (0, 0))
-    screen.blit(monster, (monster_x, role_y))
-    screen.blit(player, (player_x, role_y))
+image = Image(pygame, screen, monster_test.image, player_test.image)
 
 
 def load_text():
@@ -121,7 +96,7 @@ if __name__ == '__main__':
                     skill_id = tmp_skill_id
                     print(f"图形界面{skill_id=}")
 
-        load_image()
+        image.load_image()
         load_text()
         button.load_button()
         pygame.display.update()

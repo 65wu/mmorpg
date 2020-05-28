@@ -12,7 +12,8 @@ class Role:
         attack,
         defence,
         speed,
-        skill_list
+        skill_list,
+        image
     ):
         """
         :param name: 角色名
@@ -23,6 +24,7 @@ class Role:
         :param defence: 防御值
         :param speed: 速度，决定先手前后顺序
         :param skill_list: 技能，列表类型，默认都拥有普通攻击
+        :param image 图片物理地址
         alive: 是否存活
         """
         self.name = name
@@ -33,6 +35,7 @@ class Role:
         self.defence = defence
         self.speed = speed
         self.skill_list = [Skill("普通攻击", 20, 0)] + skill_list
+        self.image = image
         self.alive = True
 
     def __str__(self):
@@ -174,9 +177,10 @@ class Player(Role):
         attack,
         defence,
         speed,
-        skill_list
+        skill_list,
+        image
     ):
-        super().__init__(name, level, hp, mp, attack, defence, speed, skill_list)
+        super().__init__(name, level, hp, mp, attack, defence, speed, skill_list, image)
         self.exp = exp
 
     def available_skill(self):
