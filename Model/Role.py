@@ -47,7 +47,10 @@ class Role:
         :return:
         """
         return {
+            "name": self.name,
+            "hp_max": self.hp_max,
             "hp_current": self.hp_current,
+            "mp_max": self.mp_max,
             "mp_current": self.mp_current
         }
 

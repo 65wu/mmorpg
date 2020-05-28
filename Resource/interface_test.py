@@ -14,12 +14,6 @@ image = Image(pygame, screen, monster_test.image, player_test.image)
 
 
 def load_text():
-    global run
-    font_size = 35
-    font = pygame.font.SysFont("SimHei", font_size)
-    int_size = 20
-    int_font = pygame.font.SysFont("SimHei", int_size)
-
     player_max_hp = 500
     player_current_hp = 400
     player_max_mp = 100
@@ -32,7 +26,6 @@ def load_text():
 
     monster_text_x = 20
     player_text_x = 500 + monster_text_x
-    role_text_y = 70
 
     # 血条和蓝条
     rect_width = 250
@@ -51,19 +44,6 @@ def load_text():
     hp_frame_y = hp_y - frame_border
     mp_frame_y = mp_y - frame_border
 
-    text_list = [
-        ("怪物名", font, "骑士", Color.black, (monster_text_x, role_text_y)),
-        ("玩家名", font, "史莱姆", Color.black, (player_text_x, role_text_y)),
-        ("怪物血量", int_font, str(monster_current_hp) + '/' + str(monster_max_hp), Color.white, (
-            monster_text_x + int(0.4 * rect_width), hp_y)),
-        ("怪物魔法量", int_font, str(monster_current_mp) + '/' + str(monster_max_mp), Color.white, (
-            monster_text_x + int(0.4 * rect_width), mp_y)),
-        ("玩家血量", int_font, str(player_current_hp) + '/' + str(player_max_hp), Color.white, (
-            player_text_x + int(0.4 * rect_width), hp_y)),
-        ("玩家魔法量", int_font, str(player_current_mp) + '/' + str(player_max_mp), Color.white, (
-            player_text_x + int(0.4 * rect_width), mp_y))
-    ]
-
     rect_list = [
         ("怪物hp底框", Color.light_black, (monster_frame_x, hp_frame_y, fame_width, frame_height)),
         ("怪物mp底框", Color.light_black, (monster_frame_x, mp_frame_y, fame_width, frame_height)),
@@ -73,16 +53,14 @@ def load_text():
             monster_text_x, mp_y, int(rect_width * (monster_current_mp / monster_max_mp)), rect_height)),
         ("玩家hp底框", Color.light_black, (player_frame_x, hp_frame_y, fame_width, frame_height)),
         ("玩家mp底框", Color.light_black, (player_frame_x, mp_frame_y, fame_width, frame_height)),
-        ("玩家hp条", Color.green, (player_text_x, hp_y, int(rect_width * (player_current_hp / player_max_hp)), rect_height)),
-        ("玩家mp条", Color.blue, (player_text_x, mp_y, int(rect_width * (player_current_mp / player_max_mp)), rect_height))
+        ("玩家hp条", Color.green,
+         (player_text_x, hp_y, int(rect_width * (player_current_hp / player_max_hp)), rect_height)),
+        ("玩家mp条", Color.blue,
+         (player_text_x, mp_y, int(rect_width * (player_current_mp / player_max_mp)), rect_height))
     ]
 
     for rect in rect_list:
         pygame.draw.rect(screen, rect[1], rect[2])
-
-    for text_package in text_list:
-        characters = text_package[1].render(text_package[2], True, text_package[3])
-        screen.blit(characters, text_package[4])
 
 
 if __name__ == '__main__':
