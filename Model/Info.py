@@ -41,8 +41,8 @@ class Info:
 
         self.fame_width = rect_width + 2 * frame_border
         self.frame_height = rect_height + 2 * frame_border
-        self.monster_frame_x = monster_text_x - frame_border
-        self.player_frame_x = player_text_x - frame_border
+        self.monster_frame_x = self.monster_text_x - frame_border
+        self.player_frame_x = self.player_text_x - frame_border
 
         self.hp_y = hp_y
         self.mp_y = int(hp_y + rect_height * 6 / 5)
@@ -137,10 +137,6 @@ class Info:
             player_mp
         ]
 
-        for text_package in text_list:
-            characters = text_package[0].render(text_package[1], True, text_package[2])
-            self.screen.blit(characters, text_package[3])
-
         monster_hp_bottom_frame = self.bottom_frame_zip(self.monster_frame_x, self.hp_frame_y)
         monster_mp_bottom_frame = self.bottom_frame_zip(self.monster_frame_x, self.mp_frame_y)
         player_hp_bottom_frame = self.bottom_frame_zip(self.player_frame_x, self.hp_frame_y)
@@ -191,3 +187,7 @@ class Info:
 
         for rect in rect_list:
             self.game.draw.rect(self.screen, rect[0], rect[1])
+
+        for text_package in text_list:
+            characters = text_package[0].render(text_package[1], True, text_package[2])
+            self.screen.blit(characters, text_package[3])
