@@ -65,6 +65,32 @@ class Info:
             (x + int(0.4 * self.rect_width), y)
         )
 
+    def bottom_frame_zip(self, x, y):
+        return (
+            Color.light_black, (
+                x,
+                y,
+                self.fame_width,
+                self.frame_height
+            )
+        )
+
+    def point_strip(self, point_type, x, y, current_point, max_point):
+        if point_type == 'hp':
+            color = Color.green
+        elif point_type == 'mp':
+            color = Color.blue
+        else:
+            raise TypeError
+        return (
+            color, (
+                x,
+                y,
+                int(self.rect_width * (current_point / max_point)),
+                self.rect_height
+            )
+        )
+
     def load_text(self):
         monster_name = self.name_zip(
             self.monster_info["name"],
@@ -112,5 +138,56 @@ class Info:
         ]
 
         for text_package in text_list:
-            characters = text_package[1].render(text_package[2], True, text_package[3])
-            self.screen.blit(characters, text_package[4])
+            characters = text_package[0].render(text_package[1], True, text_package[2])
+            self.screen.blit(characters, text_package[3])
+
+        monster_hp_bottom_frame = self.bottom_frame_zip(self.monster_frame_x, self.hp_frame_y)
+        monster_mp_bottom_frame = self.bottom_frame_zip(self.monster_frame_x, self.mp_frame_y)
+        player_hp_bottom_frame = self.bottom_frame_zip(self.player_frame_x, self.hp_frame_y)
+        player_mp_bottom_frame = self.bottom_frame_zip(self.player_frame_x, self.mp_frame_y)
+
+        monster_hp_strip = self.point_strip(
+            'hp',
+            self.monster_text_x,
+            self.hp_y,
+            self.monster_info["hp_current"],
+            self.monster_info["hp_max"]
+        )
+
+        monster_mp_strip = self.point_strip(
+            'mp',
+            self.monster_text_x,
+            self.mp_y,
+            self.monster_info["mp_current"],
+            self.monster_info["mp_max"]
+        )
+
+        player_hp_strip = self.point_strip(
+            'hp',
+            self.player_text_x,
+            self.hp_y,
+            self.player_info["hp_current"],
+            self.player_info["hp_max"]
+        )
+
+        player_mp_strip = self.point_strip(
+            'mp',
+            self.player_text_x,
+            self.mp_y,
+            self.player_info["mp_current"],
+            self.player_info["mp_max"]
+        )
+
+        rect_list = [
+            monster_hp_bottom_frame,
+            monster_mp_bottom_frame,
+            player_hp_bottom_frame,
+            player_mp_bottom_frame,
+            monster_hp_strip,
+            monster_mp_strip,
+            player_hp_strip,
+            player_mp_strip
+        ]
+
+        for rect in rect_list:
+            self.game.draw.rect(self.screen, rect[0], rect[1])
