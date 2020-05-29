@@ -1,3 +1,5 @@
+import ctypes
+import inspect
 import pygame
 import threading
 from Model.Interface.Button import Button
@@ -7,6 +9,25 @@ from Model.Logic.Battle_state import Battle_state, battle_state_detail
 from Model.Logic.Role import Monster, Player
 from Model.Logic.Round import Round
 from Model.Logic.Skill import Skill
+
+
+def _async_raise(tid, exec_type):
+    """raises the exception, performs cleanup if needed"""
+    tid = ctypes.c_long(tid)
+    if not inspect.isclass(exec_type):
+        exec_type = type(exec_type)
+    res = ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, ctypes.py_object(exec_type))
+    if res == 0:
+        raise ValueError("invalid thread id")
+    elif res != 1:
+        # """if it returns a number greater than one, you're in trouble,
+        # and you should call it again with exc=NULL to revert the effect"""
+        ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, None)
+        raise SystemError("PyThreadState_SetAsyncExc failed")
+
+
+def stop_thread(thread):
+    _async_raise(thread.ident, SystemExit)
 
 
 class Battle_logic:
@@ -57,6 +78,7 @@ class Battle_logic:
             round_info_event.set()
 
         self.round_status_print(round_result)
+        stop_thread(interface)
 
 
 class Battle_interface:
@@ -96,14 +118,13 @@ class Battle_interface:
             button.load_button()
             pygame.display.update()
 
-        skill_choose_event.set()
-        round_info_event.set()
         pygame.quit()
+        skill_choose_event.set()
+        stop_thread(logic)
 
 
 skill_choose_event = threading.Event()
 round_info_event = threading.Event()
-
 
 skill_id = 0
 round_info = {}
@@ -111,7 +132,7 @@ round_info = {}
 monster_test = Monster(
     name="骑士",
     level=1,
-    hp=2500,
+    hp=100,
     mp=25,
     attack=25,
     defence=15,
