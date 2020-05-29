@@ -1,6 +1,9 @@
 import pygame
 import threading
 from Model.Battle_state import Battle_state, battle_state_detail
+from Model.Button import Button
+from Model.Image import Image
+from Model.Info import Info
 from Model.Role import Monster, Player
 from Model.Round import Round
 from Model.Skill import Skill
@@ -50,22 +53,41 @@ class Battle_logic:
         self.round_status_print(round_result)
 
 
-def interface():
-    run = True
-    pygame.init()
-    pygame.display.set_mode([500, 500])
-    pygame.display.set_caption("史莱姆大战勇士")
-    global skill_id
-    while run:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                run = False
-            keys = pygame.key.get_pressed()
-            if keys[pygame.K_LEFT]:
-                skill_id = 1
-                print(f"图形界面{skill_id=}")
-                thread_event.set()
-    pygame.quit()
+class Battle_interface:
+    def __init__(self, player, monster):
+        self.player = player
+        self.monster = monster
+
+    def start(self):
+        global skill_id
+
+        run = True
+        pygame.init()
+
+        screen = pygame.display.set_mode([800, 600])
+        pygame.display.set_caption("史莱姆大战勇士")
+
+        button = Button(pygame, screen, self.player)
+        image = Image(pygame, screen, self.monster.image, self.player.image)
+        info = Info(pygame, screen, self.player.basic_info(), self.monster.basic_info())
+
+        while run:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    run = False
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    tmp_skill_id = button.check_button_coordinate(event)
+                    if tmp_skill_id is not None:
+                        skill_id = tmp_skill_id
+                        print(f"图形界面{skill_id=}")
+                        thread_event.set()
+
+            image.load_image()
+            info.load_text()
+            button.load_button()
+            pygame.display.update()
+
+        pygame.quit()
 
 
 thread_event = threading.Event()
@@ -103,10 +125,11 @@ player_test = Player(
     ],
     image="/Image/Role/slime.png"
 )
-battle = Battle_logic(player_test, monster_test)
+battle_logic = Battle_logic(player_test, monster_test)
+battle_interface = Battle_interface(player_test, monster_test)
 
 if __name__ == '__main__':
-    p = threading.Thread(target=battle.start)
-    p.start()
-    c = threading.Thread(target=interface)
-    c.start()
+    # logic = threading.Thread(target=battle_logic.start)
+    interface = threading.Thread(target=battle_interface.start)
+    # logic.start()
+    interface.start()
