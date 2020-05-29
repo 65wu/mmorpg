@@ -4,5 +4,5 @@ class Color:
     green = (0, 255, 0)
     blue = (0, 0, 255)
     grey = (240, 240, 240)
-    grey_transparent = (240, 240, 240, 128)
+    grey_disable = (40, 40, 40)
     white = (255, 255, 255)

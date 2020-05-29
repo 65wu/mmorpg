@@ -76,7 +76,7 @@ class Button:
             if available:
                 color = Color.grey
             else:
-                color = Color.grey_transparent
+                color = Color.grey_disable
 
             game.draw.rect(screen, color, (x, y, button_width, button_height))
             button_text = skill_font.render(text, True, Color.black)
@@ -100,5 +100,8 @@ class Button:
 
             if x <= click_event.pos[0] <= x + self.button_width \
                     and y <= click_event.pos[1] <= y + self.button_width:
-                return index
+                if available:
+                    return index
+                else:
+                    return None
         return None
