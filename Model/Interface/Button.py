@@ -1,4 +1,4 @@
-from .Color import *
+from Model.Interface.Color import *
 
 
 class Button:

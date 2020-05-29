@@ -1,5 +1,5 @@
 import random
-from Model.Skill import Skill
+from Model.Logic.Skill import Skill
 
 
 class Role:

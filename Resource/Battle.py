@@ -1,12 +1,12 @@
 import pygame
 import threading
-from Model.Battle_state import Battle_state, battle_state_detail
-from Model.Button import Button
-from Model.Image import Image
-from Model.Info import Info
-from Model.Role import Monster, Player
-from Model.Round import Round
-from Model.Skill import Skill
+from Model.Logic.Battle_state import Battle_state, battle_state_detail
+from Model.Interface.Button import Button
+from Model.Interface.Image import Image
+from Model.Interface.Info import Info
+from Model.Logic.Role import Monster, Player
+from Model.Logic.Round import Round
+from Model.Logic.Skill import Skill
 
 
 class Battle_logic:

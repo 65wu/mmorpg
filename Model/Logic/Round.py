@@ -1,5 +1,5 @@
-from Model.Role import Player
-from Model.Battle_state import Battle_state
+from Model.Logic.Role import Player
+from Model.Logic.Battle_state import Battle_state
 
 
 class Round:
