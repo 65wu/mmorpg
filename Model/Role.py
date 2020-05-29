@@ -93,7 +93,6 @@ class Role:
         if self.mp_current - skill.mp_cost < 0:
             return False
         else:
-            self.mp_current -= skill.mp_cost
             return True
 
     def check_skill_index_legal(self, skill_id):
@@ -125,6 +124,7 @@ class Role:
                 "code": 0
             }
         else:
+            self.mp_current -= current_skill.mp_cost
             damage = self.damage_calculate(current_skill, target)
             target.hp_current -= damage
             target.check_if_hp_enough()

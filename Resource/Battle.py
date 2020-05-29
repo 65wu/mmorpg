@@ -93,6 +93,8 @@ class Battle_interface:
                         round_info_event.clear()
                         round_info_event.wait()
                         button.update_button_list(self.player)
+                    else:
+                        continue
 
             image.load_image()
             info.load_text()
@@ -136,7 +138,7 @@ player_test = Player(
     skill_list=[
         Skill("粘液喷吐", 10, 5),
         Skill("肉弹冲击", 25, 15),
-        Skill("猛击", 35, 100)
+        Skill("猛击", 35, 30)
     ],
     image="/Image/Role/slime.png"
 )
