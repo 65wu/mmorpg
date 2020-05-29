@@ -7,7 +7,8 @@ class Image:
                  screen,
                  monster_image,
                  player_image,
-                 data_dir=os.path.dirname(os.path.dirname(__file__)) + '/Data',
+                 data_dir=os.path.dirname(
+                     os.path.dirname(os.path.dirname(__file__))) + '/Data',
                  bg_image="/Image/Background/background.png",
                  role_size=(300, 300),
                  monster_x=0,

@@ -149,7 +149,7 @@ class Role:
         :return:
         """
         self.mp_current = min(
-            int(self.mp_max * 0.2) + self.mp_current,
+            int(self.mp_max * 0.8) + self.mp_current,
             self.mp_max
         )
 

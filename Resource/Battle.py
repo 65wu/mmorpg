@@ -1,9 +1,9 @@
 import pygame
 import threading
-from Model.Logic.Battle_state import Battle_state, battle_state_detail
 from Model.Interface.Button import Button
 from Model.Interface.Image import Image
 from Model.Interface.Info import Info
+from Model.Logic.Battle_state import Battle_state, battle_state_detail
 from Model.Logic.Role import Monster, Player
 from Model.Logic.Round import Round
 from Model.Logic.Skill import Skill
@@ -112,7 +112,7 @@ round_info = {}
 monster_test = Monster(
     name="骑士",
     level=1,
-    hp=250,
+    hp=2500,
     mp=25,
     attack=25,
     defence=15,
