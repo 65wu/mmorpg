@@ -10,29 +10,53 @@ class Button:
         spacing=80,
         font_size=20,
         button_width=100,
-        button_height=50
+        button_height=50,
+        button_y=500
     ):
+        """
+        按钮初始化
+        :param game:
+        :param screen: 屏幕
+        :param player: 玩家，调用可用技能
+        :param spacing: 按钮与按钮之间的间距
+        :param font_size: 按钮文字大小
+        :param button_width: 按钮宽度
+        :param button_height: 按钮高度
+        :param button_y: 按钮的y值
+        """
         self.game = game
         self.screen = screen
         self.spacing = spacing
         self.font_size = font_size
         self.button_width = button_width
         self.button_height = button_height
+        self.button_y = button_y
 
+        # 生成button列表，是一个列表的列表
+        # 子元素的属性分别为按钮x坐标, y坐标, 技能名字，是否有足够蓝释放
         self.button_list = [
-            [self.spacing * (i + 1) + self.button_width * i, 500] +
+            [self.spacing * (i + 1) + self.button_width * i, self.button_y] +
             list(skill.values())
             for i, skill in enumerate(player.available_skill())
         ]
 
     def update_button_list(self, player):
+        """
+        每到一个新的round更新技能状态
+        :param player:
+        :return:
+        """
         self.button_list = [
-            [self.spacing * (i + 1) + self.button_width * i, 500] +
+            [self.spacing * (i + 1) + self.button_width * i, self.button_y] +
             list(skill.values())
             for i, skill in enumerate(player.available_skill())
         ]
 
     def load_button(self):
+        """
+        加载技能，既加载矩形，也加载技能文字
+        :return:
+        """
         game = self.game
         screen = self.screen
         skill_size = self.font_size
@@ -56,6 +80,11 @@ class Button:
             )
 
     def check_button_coordinate(self, click_event):
+        """
+        检查鼠标点击区域是否在按钮上，并检查魔法值是否足够
+        :param click_event:
+        :return:
+        """
         for index, button in enumerate(self.button_list):
             if button[0] <= click_event.pos[0] <= button[0] + self.button_width \
                     and button[1] <= click_event.pos[1] <= button[1] + self.button_width:
