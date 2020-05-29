@@ -49,6 +49,10 @@ class Info:
         self.hp_frame_y = self.hp_y - frame_border
         self.mp_frame_y = self.mp_y - frame_border
 
+    def update_info(self, monster_info, player_info):
+        self.monster_info = monster_info
+        self.player_info = player_info
+
     def name_zip(self, name, x, y):
         return (
             self.char_text,

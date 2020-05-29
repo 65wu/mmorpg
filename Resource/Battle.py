@@ -112,6 +112,7 @@ class Battle_interface:
                         round_info_event.clear()
                         round_info_event.wait()
 
+                        info.update_info(round_info["monster_info"], round_info["player_info"])
                         button.update_button_list(self.player)
             image.load_image()
             info.load_text()

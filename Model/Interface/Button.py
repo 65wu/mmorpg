@@ -51,7 +51,6 @@ class Button:
             list(skill.values())
             for i, skill in enumerate(player.available_skill())
         ]
-        print(self.button_list)
 
     def load_button(self):
         """
