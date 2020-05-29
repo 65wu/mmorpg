@@ -90,9 +90,10 @@ class Role:
         :param skill: 使用的技能
         :return:
         """
-        if self.hp_current - skill.mp_cost < 0:
+        if self.mp_current - skill.mp_cost < 0:
             return False
         else:
+            self.mp_current -= skill.mp_cost
             return True
 
     def check_skill_index_legal(self, skill_id):

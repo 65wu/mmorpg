@@ -78,7 +78,7 @@ class Battle_interface:
 
         button = Button(pygame, screen, self.player)
         image = Image(pygame, screen, self.monster.image, self.player.image)
-        info = Info(pygame, screen, self.player.basic_info(), self.monster.basic_info())
+        info = Info(pygame, screen, self.monster.basic_info(), self.player.basic_info())
 
         while run:
             for event in pygame.event.get():
@@ -92,6 +92,7 @@ class Battle_interface:
 
                         round_info_event.clear()
                         round_info_event.wait()
+                        button.update_button_list(self.player)
 
             image.load_image()
             info.load_text()
@@ -135,7 +136,7 @@ player_test = Player(
     skill_list=[
         Skill("粘液喷吐", 10, 5),
         Skill("肉弹冲击", 25, 15),
-        Skill("猛击", 35, 20)
+        Skill("猛击", 35, 100)
     ],
     image="/Image/Role/slime.png"
 )

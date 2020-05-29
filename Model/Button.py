@@ -51,6 +51,7 @@ class Button:
             list(skill.values())
             for i, skill in enumerate(player.available_skill())
         ]
+        print(self.button_list)
 
     def load_button(self):
         """
@@ -68,14 +69,23 @@ class Button:
             # button[0] 按钮x坐标
             # button[1] 按钮y坐标
             # button[2] 按钮上的技能文字
-            game.draw.rect(screen, Color.grey, (*button[:2], button_width, button_height))
-            button_text = skill_font.render(button[2], True, Color.black)
+            # button[3] 技能是否有足够的魔法值释放
+
+            x, y, text, available = button
+
+            if available:
+                color = Color.grey
+            else:
+                color = Color.grey_transparent
+
+            game.draw.rect(screen, color, (x, y, button_width, button_height))
+            button_text = skill_font.render(text, True, Color.black)
             # 水平且垂直居中
             screen.blit(
                 button_text,
                 (
-                    button[0] + int((button_width - skill_size * len(str(button[2]))) / 2),
-                    button[1] + int((button_height - skill_size) / 2)
+                    x + int((button_width - skill_size * len(str(text))) / 2),
+                    y + int((button_height - skill_size) / 2)
                 )
             )
 
@@ -86,7 +96,9 @@ class Button:
         :return:
         """
         for index, button in enumerate(self.button_list):
-            if button[0] <= click_event.pos[0] <= button[0] + self.button_width \
-                    and button[1] <= click_event.pos[1] <= button[1] + self.button_width:
+            x, y, _, available = button
+
+            if x <= click_event.pos[0] <= x + self.button_width \
+                    and y <= click_event.pos[1] <= y + self.button_width:
                 return index
         return None
