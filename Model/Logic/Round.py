@@ -4,7 +4,7 @@ from Model.Logic.Battle_state import Battle_state
 
 class Round:
     def __init__(self, player, monster):
-        self.count = 1
+        self.count = 0
         self.player = player
         self.monster = monster
 

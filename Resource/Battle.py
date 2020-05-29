@@ -40,16 +40,13 @@ class Battle_logic:
         global skill_id, round_info
 
         game_round = self.game_round
-        skill_choose_event.clear()
-        skill_choose_event.wait()
-
-        round_result = game_round.exec(skill_id)
-        round_info = round_result["round_info"]
-        round_info_event.set()
+        round_result = dict()
+        round_result["battle_state"] = Battle_state.be_in_progress
 
         while round_result["battle_state"] == Battle_state.be_in_progress:
-            self.round_status_print(round_result)
-            self.round_damage_print(round_result)
+            if game_round.count:
+                self.round_status_print(round_result)
+                self.round_damage_print(round_result)
             game_round.count += 1
 
             skill_choose_event.clear()
@@ -99,6 +96,8 @@ class Battle_interface:
             button.load_button()
             pygame.display.update()
 
+        skill_choose_event.set()
+        round_info_event.set()
         pygame.quit()
 
 
