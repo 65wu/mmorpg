@@ -37,18 +37,27 @@ class Battle_logic:
         """)
 
     def start(self):
+        global skill_id, round_info
+
         game_round = self.game_round
-        thread_event.wait()
-        print(f"{skill_id=}")
+        skill_choose_event.clear()
+        skill_choose_event.wait()
+
         round_result = game_round.exec(skill_id)
+        round_info = round_result["round_info"]
+        round_info_event.set()
 
         while round_result["battle_state"] == Battle_state.be_in_progress:
             self.round_status_print(round_result)
             self.round_damage_print(round_result)
             game_round.count += 1
-            thread_event.wait()
-            print(f"{skill_id=}")
+
+            skill_choose_event.clear()
+            skill_choose_event.wait()
+
             round_result = game_round.exec(skill_id)
+            round_info = round_result["round_info"]
+            round_info_event.set()
 
         self.round_status_print(round_result)
 
@@ -59,7 +68,7 @@ class Battle_interface:
         self.monster = monster
 
     def start(self):
-        global skill_id
+        global skill_id, round_info
 
         run = True
         pygame.init()
@@ -79,8 +88,10 @@ class Battle_interface:
                     tmp_skill_id = button.check_button_coordinate(event)
                     if tmp_skill_id is not None:
                         skill_id = tmp_skill_id
-                        print(f"图形界面{skill_id=}")
-                        thread_event.set()
+                        skill_choose_event.set()
+
+                        round_info_event.clear()
+                        round_info_event.wait()
 
             image.load_image()
             info.load_text()
@@ -90,9 +101,12 @@ class Battle_interface:
         pygame.quit()
 
 
-thread_event = threading.Event()
-lock = threading.Lock()
+skill_choose_event = threading.Event()
+round_info_event = threading.Event()
+
+
 skill_id = 0
+round_info = {}
 
 monster_test = Monster(
     name="骑士",
@@ -129,7 +143,7 @@ battle_logic = Battle_logic(player_test, monster_test)
 battle_interface = Battle_interface(player_test, monster_test)
 
 if __name__ == '__main__':
-    # logic = threading.Thread(target=battle_logic.start)
+    logic = threading.Thread(target=battle_logic.start)
     interface = threading.Thread(target=battle_interface.start)
-    # logic.start()
+    logic.start()
     interface.start()
