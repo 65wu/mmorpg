@@ -1,6 +1,7 @@
 import ctypes
 import inspect
 import pygame
+import time
 import threading
 from Model.Interface.Button import Button
 from Model.Interface.Image import Image
@@ -78,6 +79,7 @@ class Battle_logic:
             round_info_event.set()
 
         self.round_status_print(round_result)
+        time.sleep(1.5)
         stop_thread(interface)
 
 
