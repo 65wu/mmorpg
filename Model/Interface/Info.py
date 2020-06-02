@@ -19,17 +19,36 @@ class Info:
             frame_border=1,
             hp_y=120
     ):
+        """
+        信息类初始化
+        :param game: pygame
+        :param screen: 屏幕
+        :param monster_info: 怪物信息，是个字典，会含有名称，当前和最大hp、mp
+        :param player_info: 玩家信息，数据类型同上
+        :param char_size: 文字大小
+        :param int_size: 数字大小
+        :param x_bias: x偏移值，使文字不是紧贴左边的
+        :param monster_text_x: 怪物名称的x坐标
+        :param player_text_x: 玩家名称的x坐标
+        :param role_text_y: 名称文本的y坐标
+        :param rect_width: 矩形宽度
+        :param rect_height: 矩形高度
+        :param frame_border: 边框厚度
+        :param hp_y: hp放置的y值
+        """
         self.game = game
         self.screen = screen
 
         self.monster_info = monster_info
         self.player_info = player_info
 
+        # 加载字体
         self.char_size = char_size
         self.int_size = int_size
         self.char_text = game.font.SysFont("SimHei", char_size)
         self.int_text = game.font.SysFont("SimHei", int_size)
 
+        # 设定文本x,y值
         self.x_bias = x_bias
         self.monster_text_x = monster_text_x + x_bias
         self.player_text_x = player_text_x + x_bias
@@ -39,21 +58,36 @@ class Info:
         self.rect_height = rect_height
         self.frame_border = frame_border
 
+        # 生成x值
         self.fame_width = rect_width + 2 * frame_border
         self.frame_height = rect_height + 2 * frame_border
         self.monster_frame_x = self.monster_text_x - frame_border
         self.player_frame_x = self.player_text_x - frame_border
 
+        # 生成y值
         self.hp_y = hp_y
         self.mp_y = int(hp_y + rect_height * 6 / 5)
         self.hp_frame_y = self.hp_y - frame_border
         self.mp_frame_y = self.mp_y - frame_border
 
     def update_info(self, monster_info, player_info):
+        """
+        每轮结束更新信息
+        :param monster_info:
+        :param player_info:
+        :return:
+        """
         self.monster_info = monster_info
         self.player_info = player_info
 
     def name_zip(self, name, x, y):
+        """
+        名称元祖封装
+        :param name:
+        :param x:
+        :param y:
+        :return:
+        """
         return (
             self.char_text,
             name,
@@ -62,6 +96,14 @@ class Info:
         )
 
     def point_zip(self, current_point, max_point, x, y):
+        """
+        hp、mp数值封装
+        :param current_point:
+        :param max_point:
+        :param x:
+        :param y:
+        :return:
+        """
         return (
             self.int_text,
             str(current_point) + '/' + str(max_point),
@@ -70,6 +112,13 @@ class Info:
         )
 
     def bottom_frame_zip(self, x, y):
+        """
+        底框封装
+        :param x:
+        :param y:
+        :return:
+        """
+
         return (
             Color.light_black, (
                 x,
@@ -80,6 +129,15 @@ class Info:
         )
 
     def point_strip(self, point_type, x, y, current_point, max_point):
+        """
+        hp、mp条封装
+        :param point_type:
+        :param x:
+        :param y:
+        :param current_point:
+        :param max_point:
+        :return:
+        """
         if point_type == 'hp':
             color = Color.green
         elif point_type == 'mp':
