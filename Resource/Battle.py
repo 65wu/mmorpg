@@ -79,7 +79,7 @@ class Battle_logic:
             round_info_event.set()
 
         self.round_status_print(round_result)
-        time.sleep(1.5)
+        time.sleep(2)
         stop_thread(interface)
 
 
@@ -157,8 +157,8 @@ player_test = Player(
     defence=10,
     speed=3,
     skill_list=[
-        Skill("粘液喷吐", 10, 5),
-        Skill("肉弹冲击", 25, 15),
+        Skill("粘液喷吐", 10, 30),
+        Skill("肉弹冲击", 25, 50),
         Skill("猛击", 35, 80)
     ],
     image="/Image/Role/slime.png"
@@ -171,3 +171,6 @@ if __name__ == '__main__':
     interface = threading.Thread(target=battle_interface.start)
     logic.start()
     interface.start()
+    logic.join()
+    interface.join()
+

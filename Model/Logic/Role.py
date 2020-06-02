@@ -107,16 +107,29 @@ class Role:
             return True
 
     def damage_calculate(self, current_skill, target):
+        """
+        计算伤害的函数，需要的话可自行更改
+        :param current_skill: 当前使用的技能
+        :param target: 被攻击对象
+        :return: 伤害值
+        """
         damage = (
             self.attack_value +
             current_skill.damage -
             int(target.defence / 2)
         )
+        # 伤害过低时，则修正为1点
         if damage <= 0:
             damage = 1
         return damage
 
     def use_skill(self, target, skill_id=0):
+        """
+        使用技能
+        :param target: 被攻击对象
+        :param skill_id: 技能下标
+        :return:
+        """
         current_skill = self.skill_list[skill_id]
         if not self.check_if_mp_enough(current_skill):
             return {
@@ -137,7 +150,7 @@ class Role:
     def attack(self, target, skill_int=0):
         """
         攻击函数，调用技能
-        :param skill_int:
+        :param skill_int: 技能下标
         :param target: 即将被攻击的目标
         :return:
         """
@@ -156,8 +169,16 @@ class Role:
 
 class Monster(Role):
     def attack(self, target, skill_int=0):
+        """
+        怪物攻击函数
+        :param target: 这里其实可以直接写死成玩家，不过我当时想做混乱效果
+        :param skill_int: 技能下标
+        :return: 返回使用技能造成的影响
+        """
+        # 设定随机尝试值为0
         try_count = 0
 
+        # 最多随机尝试三次使用技能，蓝不够无法释放技能
         while try_count < 3:
             skill_int = random.randint(0, len(self.skill_list) - 1)
             result = self.use_skill(target, skill_int)
@@ -188,6 +209,10 @@ class Player(Role):
         self.exp = exp
 
     def available_skill(self):
+        """
+        显示当前可用技能
+        :return:返回当前可以使用技能列表
+        """
         skill_list = self.skill_list
         available_skill_list = [
             {
