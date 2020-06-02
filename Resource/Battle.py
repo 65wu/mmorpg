@@ -83,7 +83,7 @@ class Battle:
             self.battle = battle
 
             self.game_round = Round(player, monster)
-            self._result = '异常退出'
+            self._result = -2
 
         def round_status_print(self, round_result):
             game_round = self.game_round
@@ -122,6 +122,7 @@ class Battle:
                 self.battle.skill_choose_event.wait()
 
                 round_result = game_round.exec(self.battle.skill_id)
+                self.battle.round_info = round_result["round_info"]
                 self.battle.round_info_event.set()
 
             self.round_status_print(round_result)
@@ -143,14 +144,14 @@ class Battle:
 
         self.battle_logic = self.Battle_logic(self.player, self.monster, self)
         self.battle_interface = self.Battle_interface(self.player, self.monster, self)
+        self.logic = threading.Thread(target=self.battle_logic.start)
+        self.interface = threading.Thread(target=self.battle_interface.start)
 
     def run(self):
-        logic = threading.Thread(target=self.battle_logic.start)
-        interface = threading.Thread(target=self.battle_interface.start)
-        logic.start()
-        interface.start()
-        logic.join()
-        interface.join()
+        self.logic.start()
+        self.interface.start()
+        self.logic.join()
+        self.interface.join()
         return self.battle_logic.get_result()
 
 
